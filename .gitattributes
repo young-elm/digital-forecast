@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+# 服务器上的 shell 脚本一旦被转成 CRLF 就报 bad interpreter，强制 LF
+*.sh      text eol=lf
+*.conf    text eol=lf
+
+# Windows PowerShell 5.1 读 CRLF 最稳，且必须保留 UTF-8 BOM
+*.ps1     text eol=crlf
+
+*.jpg     binary
+*.png     binary
+*.tgz     binary
+*.zip     binary

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>形象部件预览</title>
+<style>
+  body { margin: 0; padding: 24px; background: #000; color: #f3f0ff; font-family: system-ui, "PingFang SC", sans-serif; }
+  h1 { font-size: 18px; } p { color: #a9a0c4; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+  .cell svg { width: 100%; height: auto; border-radius: 16px; }
+  .cell b { display: block; font-size: 14px; margin-top: 6px; }
+  .cell span { font-size: 12px; color: #a9a0c4; }
+</style>
+</head>
+<body>
+  <h1>16 型形象一览（改 avatar.js 后刷新这里就能看到）</h1>
+  <p>每格换一组轴答案与风味参数，用来检查发型、姿态、表情、配件、手持物有没有画歪。</p>
+  <div class="grid" id="grid"></div>
+
+  <script src="../js/data/questions.js"></script>
+  <script src="../js/data/types.js"></script>
+  <script src="../js/data/tags.js"></script>
+  <script src="../js/data/careers.js"></script>
+  <script src="../js/data/copy.js"></script>
+  <script src="../js/scoring.js"></script>
+  <script src="../js/avatar.js"></script>
+  <script>
+    const grid = document.getElementById('grid');
+    const types = Object.keys(TYPES);
+    grid.innerHTML = types.map((tp, n) => {
+      const answers = [];
+      QUESTIONS.forEach((q, i) => {
+        let idx = 0;
+        if (q.axis) idx = q.options[0].pole === tp[i % 4 === 0 ? 0 : Math.floor(i / 4)] ? 0 : 1;
+        answers.push({ qid: q.id, optionIndex: idx % q.options.length, order: i });
+      });
+      const r = computeResult(answers);
+      return `<div class="cell">${renderAvatar(r.avatar)}<b>${tp} · ${TYPES[tp].nickname}</b>
+        <span>${r.tags.map((t) => t.name).join(' / ')}</span></div>`;
+    }).join('');
+  </script>
+</body>
+</html>

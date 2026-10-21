@@ -1,0 +1,8 @@
+# AI 生图的原始 PNG（每张约 2.5MB，共 50MB），成品已压到 assets/scenes/，不入库
+vibe_images/
+
+# 本地打包产物，随时可用 serve.js / deploy 脚本重新生成
+dist/
+
+# 验证过程中截的图
+.preview/
